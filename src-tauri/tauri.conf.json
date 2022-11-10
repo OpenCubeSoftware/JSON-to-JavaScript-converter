@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "convert-json",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "opencube",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -56,7 +56,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 630,
         "resizable": false,
         "title": "Convert JSON",
         "width": 800

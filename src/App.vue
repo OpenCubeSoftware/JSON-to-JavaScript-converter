@@ -1,19 +1,30 @@
 <script setup>
 import {computed, ref} from 'vue';
 const input = ref('');
+const language  =ref('js');
+const toOrFrom = ref('from');
 
 function replaceJsonKey(match, p1, p2, p3, offset, string) {
   console.log(match);
   return match.substring(1, match.length -2) + ":";
 }
 
+const jsonToPhp = (json) => {
+  const newStr = json.replace(/\{/g, "[").replace(/\}/g, "]");
+  return newStr.replace(/:/g, "=>");
+}
+
 const converted = computed(() => {
   try {
     if (input.value === '') {
-      return 'When you enter some JSON, it will be converted to a JavaScript object here!';
+      return `When you enter some JSON, it will be converted to a ${language.value === 'js' ? 'JavaScript object' : 'PHP array'} here!`;
     }
-    JSON.parse(input.value);
-    return input.value.replace(/"(\w+)":/g, replaceJsonKey)
+    if (language.value === 'js') {
+      JSON.parse(input.value);
+      return input.value.replace(/"(\w+)":/g, replaceJsonKey)
+    } else {
+      return jsonToPhp(input.value);
+    }
   } catch {
     return "Not valid JSON."
   }
@@ -34,7 +45,17 @@ const clearInput = () => {
 </script>
 
 <template>
-  <el-container class="meow">
+  <el-container class="main-col">
+        <div class="flex-row space-between">
+          <el-radio-group v-model="language">
+            <el-radio label="js" size="default">JavaScript</el-radio>
+            <el-radio label="php" size="default">PHP</el-radio>
+          </el-radio-group>
+<!--          <el-radio-group v-model="language">-->
+<!--            <el-radio label="from" size="default">JSON to {{language === 'js' ? 'JavaScript' : 'PHP'}}</el-radio>-->
+<!--            <el-radio label="to" size="default">{{language === 'js' ? 'JavaScript' : 'PHP'}} to JSON</el-radio>-->
+<!--          </el-radio-group>-->
+        </div>
         <div class="flex-row">
           <div class="wide-wrapper">
             <el-input class="text-input" resize="none" v-model="input" :rows="25" type="textarea"
@@ -54,14 +75,7 @@ const clearInput = () => {
 </template>
 
 <style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-.meow {
+.main-col {
   height: 97vh;
   width: 97vw;
   display: flex;
@@ -92,7 +106,15 @@ const clearInput = () => {
 .space-between {
   justify-content: space-between;
 }
-
+.space-evenly {
+  justify-content: space-evenly;
+}
+.center {
+  justify-content: center;
+}
+.gap {
+  gap: 55px;
+}
 .padding-top {
    padding-top: 10px;
 }
