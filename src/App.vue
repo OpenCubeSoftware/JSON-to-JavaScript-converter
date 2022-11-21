@@ -1,8 +1,12 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, onBeforeMount, onMounted, ref} from 'vue';
+import {platform} from '@tauri-apps/api/os';
+import {appWindow, LogicalSize} from '@tauri-apps/api/window';
 const input = ref('');
 const language  =ref('js');
 const toOrFrom = ref('from');
+
+
 
 function replaceJsonKey(match, p1, p2, p3, offset, string) {
   console.log(match);
@@ -11,7 +15,7 @@ function replaceJsonKey(match, p1, p2, p3, offset, string) {
 
 const jsonToPhp = (json) => {
   const newStr = json.replace(/\{/g, "[").replace(/\}/g, "]");
-  let replacedStr = newStr.replace(/:/g, " =>");
+  let replacedStr = newStr.replace(/:/g, " => ");
   return replacedStr + ";";
 }
 
@@ -20,6 +24,8 @@ const converted = computed(() => {
     if (input.value === '') {
       return `When you enter some JSON, it will be converted to a ${language.value === 'js' ? 'JavaScript object' : 'PHP array'} here!`;
     }
+    let text = input.value;
+    text = text.replace(/“/g, '"').replace(/“/g, '"')
     if (language.value === 'js') {
       JSON.parse(input.value);
       return input.value.replace(/"(\w+)":/g, replaceJsonKey)
@@ -42,6 +48,13 @@ const copyResult = async () => {
 const clearInput = () => {
   input.value = '';
 }
+
+onBeforeMount(async () => {
+
+  console.log('Platform is ', platform);
+  debugger;
+
+})
 
 </script>
 
