@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "convert-json",
-    "version": "1.0.0"
+    "productName": "Convert JSON",
+    "version": "1.0.2"
   },
   "tauri": {
     "allowlist": {

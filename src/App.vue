@@ -11,7 +11,8 @@ function replaceJsonKey(match, p1, p2, p3, offset, string) {
 
 const jsonToPhp = (json) => {
   const newStr = json.replace(/\{/g, "[").replace(/\}/g, "]");
-  return newStr.replace(/:/g, "=>");
+  let replacedStr = newStr.replace(/:/g, " =>");
+  return replacedStr + ";";
 }
 
 const converted = computed(() => {
